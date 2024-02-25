@@ -1,11 +1,11 @@
 'use strict'
-
-const { model, Schema, Types } = require('mongoose'); // Erase if already required
+const mongoose = require('mongoose');
+const { model, Schema, Types } = mongoose; // Erase if already required
 
 const DOCUMENT_NAME = 'Shop';
 const COLLECTION_NAME = 'Shops';
 // Declare the Schema of the Mongo model
-var shopSchema = new mongoose.Schema({
+const  shopSchema = new mongoose.Schema({
     name:{
         type:String,
         trim: true,
@@ -26,11 +26,11 @@ var shopSchema = new mongoose.Schema({
         default: 'inactive'
     },
     verify: {
-        type: Schema.Types.Boolean,
+        type: Boolean,
         default: false
     },
     roles: {
-        type: String,
+        type: Array,
         default: []
     }
 }, {
