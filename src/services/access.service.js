@@ -7,6 +7,7 @@ const { getInfoData } = require('../utils')
 
 const KeyTokenService = require('../services/keyToken.service')
 const { createTokenPair } = require('../auth/authUtils')
+const { BadRequestError } = require('../core/error.response')
 
 const RoleShop = {
     SHOP: 'SHOP',
@@ -17,15 +18,11 @@ const RoleShop = {
 
 class AccessService {
     static signUp = async ({name, email, password}) => {
-        try {
+        // try {
             // step 1: check email exist ?
             const hodelShop = await shopModel.findOne({email}).lean()
             if(hodelShop) {
-                return {
-                    code: 'xxx',
-                    message: 'Shop already register',
-                    status: 'error'
-                }
+                throw new BadRequestError('Error: shop already exist')
             }
 
             const passwordHash = await bcrypt.hash(password, 10)
@@ -76,6 +73,7 @@ class AccessService {
                 })
 
                 if (!keyStore) {
+                    // throw new BadRequestError('Error: create key token error')
                     return {
                         code: 'xxx',
                         message: 'Error',
@@ -99,13 +97,13 @@ class AccessService {
                 code: 200,
                 metadata: null
             }
-        } catch (error) {
-            return {
-                code: 'xxx',
-                message: error.message,
-                status: 'error'
-            }
-        }
+        // } catch (error) {
+            // return {
+            //     code: 'xxx',
+            //     message: error.message,
+            //     status: 'error'
+            // }
+        // }
     }
 }
 
