@@ -19,9 +19,13 @@ const keyTokenSchema = new Schema(
       type: String,
       required: true
     },
-    refreshToken: {
+    refreshTokenUsed: {
       type: Array,
-      default: []
+      default: [] // nhung refresh token da duoc su dung
+    },
+    refreshToken: {
+      type: String,
+      required: true
     }
   },
   {

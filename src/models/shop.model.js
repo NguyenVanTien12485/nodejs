@@ -1,11 +1,10 @@
 'use strict'
-const mongoose = require('mongoose');
-const { model, Schema, Types } = mongoose; // Erase if already required
+const { Schema, model, Types } = require('mongoose');
 
 const DOCUMENT_NAME = 'Shop';
 const COLLECTION_NAME = 'Shops';
 // Declare the Schema of the Mongo model
-const  shopSchema = new mongoose.Schema({
+const  shopSchema = new Schema({
     name:{
         type:String,
         trim: true,
@@ -39,4 +38,4 @@ const  shopSchema = new mongoose.Schema({
 });
 
 //Export the model
-module.exports = mongoose.model(DOCUMENT_NAME, shopSchema);
+module.exports = model(DOCUMENT_NAME, shopSchema);
