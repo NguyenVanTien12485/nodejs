@@ -21,6 +21,7 @@ class Database {
     }
 
     static getInstance() {
+        // singleton pattern
         if(!Database.instance) {
             Database.instance = new Database()
         }
