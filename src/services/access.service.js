@@ -24,6 +24,38 @@ class AccessService {
     /*
         check this token used ?
     */
+   //version 2: fixed no need access token
+        static handleRefreshTokenV2 = async ({ keyStore, user, refreshToken }) => {
+            const { userId, email } = user
+            if(keyStore.refreshTokenUsed.includes(refreshToken)) {
+                await KeyTokenService.deleteKeyById(userId)
+                throw new ForbiddenError('Something went wrong happened, plz relogin')
+            }
+            if(keyStore.refreshToken !== refreshToken) {
+                throw new AuthFailureError('Shop not registered')
+            }
+            const foundShop = await findByEmail({email})
+            if(!foundShop) {
+                throw new AuthFailureError('Shop not registered')
+            }
+            // create 1 cap token moi
+            const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey )
+            // update token
+            await holderToken.updateOne({
+                $set: {
+                    refreshToken: tokens.refreshToken
+                },
+                $addToSet: {
+                    refreshTokenUsed: refreshToken //da dc su dung de lay token moi roi
+                }
+            })
+    
+            return {
+                user,
+                tokens
+            }
+        }
+
     static handleRefreshToken = async ( refreshToken ) => {
         // check xem token dc su dung chua,
         const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken)
