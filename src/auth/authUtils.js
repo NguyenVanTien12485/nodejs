@@ -8,7 +8,7 @@ const HEADER = {
     API_KEY: 'x-api-key',
     CLIENT_ID: 'x-client-id',
     AUTHORIZATION: 'authorization',
-    REFRESHTOKEN: 'refreshtoken'
+    REFRESHTOKEN: 'x-rtoken-id'
 }
 const createTokenPair = async ( payload, publicKey, privateKey ) => {
     try {
@@ -118,7 +118,7 @@ const verifyJWT = async ( token, keySecret ) => {
 
 module.exports = {
     createTokenPair,
-    authentication,
+    // authentication,
     verifyJWT,
     authenticationV2
 }

@@ -41,7 +41,7 @@ class AccessService {
             // create 1 cap token moi
             const tokens = await createTokenPair({ userId, email }, keyStore.publicKey, keyStore.privateKey )
             // update token
-            await holderToken.updateOne({
+            await keyStore.updateOne({
                 $set: {
                     refreshToken: tokens.refreshToken
                 },
