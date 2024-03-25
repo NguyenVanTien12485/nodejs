@@ -43,8 +43,11 @@ class Product {
     }
 
     // create product
-    async createProduct() {
-        return await product.create(this)
+    async createProduct(product_id) {
+        return await product.create({
+            ...this,
+            _id: product_id
+        })
     }
 }
 
@@ -64,10 +67,13 @@ class Clothing extends Product {
 // Define sub-class for different product types Electronics
 class Electronics extends Product {
     async createProduct() {
-        const newElectronics = await electronics.create(this.product_attributes)
+        const newElectronics = await electronics.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop
+        })
         if (!newElectronics) throw new BadRequestError('create new clothing failed')
   
-        const newProduct = await super.createProduct()
+        const newProduct = await super.createProduct(newElectronics._id)
         if(!newProduct) throw new BadRequestError('create new product failed')
         
         return newProduct
