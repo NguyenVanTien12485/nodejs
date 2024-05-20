@@ -3,7 +3,7 @@
 const { product, clothing, electronics, furniture } = require('../models/product.model')
 const {BadRequestError} = require('../core/error.response')
 // define Factory class to create product
-class ProdcutFactory {
+class ProductFactory {
     /*
         type: 'Clothing',
         payload
@@ -12,10 +12,10 @@ class ProdcutFactory {
 
    // factory pattern
    static registerProductType(type, classRef) {
-    ProdcutFactory.productRegistry[type] = classRef
+    ProductFactory.productRegistry[type] = classRef
    }
     static async createProduct(type, payload) {
-        const ProductClass = ProdcutFactory.productRegistry[type]
+        const ProductClass = ProductFactory.productRegistry[type]
 
         if (!ProductClass) throw new BadRequestError(`invalid product type ${type}`)
 
@@ -99,8 +99,8 @@ class Electronics extends Product {
   }
 
   // register product type
-  ProdcutFactory.registerProductType('Clothing', Clothing)
-  ProdcutFactory.registerProductType('Electronics', Electronics)
-  ProdcutFactory.registerProductType('Furniture', Furniture)
+  ProductFactory.registerProductType('Clothing', Clothing)
+  ProductFactory.registerProductType('Electronics', Electronics)
+  ProductFactory.registerProductType('Furniture', Furniture)
 
-  module.exports = ProdcutFactory
+  module.exports = ProductFactory

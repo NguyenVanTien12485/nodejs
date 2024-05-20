@@ -3,7 +3,7 @@
 const { product, clothing, electronics } = require('../models/product.model')
 const {BadRequestError} = require('../core/error.response')
 // define Factory class to create product
-class ProdcutFactory {
+class ProductFactory {
     /*
         type: 'Clothing',
         payload
@@ -80,4 +80,4 @@ class Electronics extends Product {
     }
   }
 
-  module.exports = ProdcutFactory
+  module.exports = ProductFactory
