@@ -70,6 +70,11 @@ const productSchema = new Schema({
     timestamps: true
   }
 )
+// create Index for text search
+productSchema.index({
+    product_name: 'text',
+    product_description: 'text'
+})
 // Document middlewere: runs before .save() and .create(),...
 productSchema.pre('save', function (next) {
     this.product_slug = slugify(this.product_name, {
