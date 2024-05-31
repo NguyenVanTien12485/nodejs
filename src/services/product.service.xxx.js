@@ -48,6 +48,15 @@ class ProductFactory {
         return await publishProductByShop({ product_shop, product_id })
     }
 
+
+    /**
+     * Unpublishes a product from a shop.
+     *
+     * @param {Object} params - The parameters for unpublishing the product.
+     * @param {string} params.product_shop - The ID of the shop from which the product is to be unpublished.
+     * @param {string} params.product_id - The ID of the product to be unpublished.
+     * @return {Promise<number>} - A promise that resolves to the number of modified documents.
+     */
     static async unPublishProductShop({ product_shop, product_id }) {
         return await unPublishProductByShop({ product_shop, product_id })
     }
@@ -58,15 +67,43 @@ class ProductFactory {
         return await findAllDraftsForShop({ query, limit, skip })
     }
 
+
+        /**
+     * Find all published products for a specific shop.
+     *
+     * @param {Object} options - The options for finding the products.
+     * @param {string} options.product_shop - The ID of the shop.
+     * @param {number} [options.limit=50] - The maximum number of products to return.
+     * @param {number} [options.skip=0] - The number of products to skip.
+     * @return {Promise<Array>} A promise that resolves to an array of published products.
+     */
     static async findAllPublishShop({ product_shop, limit = 50, skip = 0 }) {
         const query = { product_shop, isPublished: true }
         return await findAllPublishForShop({ query, limit, skip })
     }
 
+        /**
+     * Find all products with optional filters and pagination.
+     *
+     * @param {Object} options - The options for finding the products.
+     * @param {number} [options.limit=50] - The maximum number of products to return.
+     * @param {string} [options.sort='ctime'] - The field to sort the products by.
+     * @param {number} [options.page=1] - The page number of the results.
+     * @param {Object} [options.filter={ isPublished: true }] - The filters to apply to the products.
+     * @param {boolean} [options.filter.isPublished=true] - Whether to include only published products.
+     * @return {Promise<Array>} A promise that resolves to an array of products.
+     */
     static async findAllProducts({ limit = 50, sort = 'ctime', page = 1,  filter = { isPublished: true }}) {
         return await findAllProducts({ limit, sort, page, filter, select: ['product_name', 'product_thumb', 'product_price'] })
     }
 
+        /**
+     * Find a product by its ID and return the product object.
+     *
+     * @param {Object} options - The options for finding the product.
+     * @param {string} options.product_id - The ID of the product.
+     * @return {Promise<Object>} A promise that resolves to the product object.
+     */
     static async findProductById({ product_id }) {
         return await findProductById({ product_id, unSelect: ['__v'] })
     }
