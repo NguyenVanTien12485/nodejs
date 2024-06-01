@@ -67,7 +67,6 @@ class ProductFactory {
         return await findAllDraftsForShop({ query, limit, skip })
     }
 
-
         /**
      * Find all published products for a specific shop.
      *
@@ -142,6 +141,13 @@ class Product {
 
 // Define sub-class for different product types Clothing
 class Clothing extends Product {
+
+    /**
+     * Creates a new product by creating a new clothing item and then creating a new product.
+     *
+     * @return {Promise<Object>} The newly created product.
+     * @throws {BadRequestError} If creating the clothing item or the product fails.
+    */
   async createProduct() {
       const newClothing = await clothing.create(this.product_attributes)
       if (!newClothing) throw new BadRequestError('create new clothing failed')
@@ -155,6 +161,12 @@ class Clothing extends Product {
 
 // Define sub-class for different product types Electronics
 class Electronics extends Product {
+    /**
+     * Creates a new product by creating a new electronic item and then creating a new product.
+     *
+     * @return {Promise<Object>} The newly created product.
+     * @throws {BadRequestError} If creating the electronic item or the product fails.
+     */
     async createProduct() {
         const newElectronics = await electronics.create({
             ...this.product_attributes,
@@ -170,6 +182,12 @@ class Electronics extends Product {
   }
 
   class Furniture extends Product {
+    /**
+     * Creates a new product by creating a new furniture item and then creating a new product.
+     *
+     * @return {Promise<Object>} The newly created product.
+     * @throws {BadRequestError} If creating the furniture item or the product fails.
+     */
     async createProduct() {
         const newFurniture = await furniture.create({
             ...this.product_attributes,
