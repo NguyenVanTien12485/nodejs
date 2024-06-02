@@ -9,7 +9,8 @@ const {
     unPublishProductByShop,
     searchProducts,
     findAllProducts,
-    findProductById
+    findProductById,
+    updateProductById
  } = require('../models/repository/product.repo')
 // define Factory class to create product
 class ProductFactory {
@@ -137,6 +138,11 @@ class Product {
             _id: product_id
         })
     }
+
+    // update product
+    async updateProduct(productId, bodyUpdate) {
+        return await updateProductById({ productId, bodyUpdate, model: product })
+    }
 }
 
 // Define sub-class for different product types Clothing
@@ -157,6 +163,24 @@ class Clothing extends Product {
 
       return newProduct
   }
+
+  async updateProduct(product_id) {
+        /*
+            TODO:{
+                a: undifinded,
+                b: null
+            } 
+        */
+        //    1. remove attr has null undefined
+        const objectParams = this
+        //    2. check xem update o dau?? 
+        if (objectParams.product_attributes) {
+            // Update child
+            await updateProductById({ productId, bodyUpdate, model: clothing })
+        const updateProduct = await super.updateProduct(productId, objectParams)
+            return updateProduct
+        }
+    }
 }
 
 // Define sub-class for different product types Electronics
