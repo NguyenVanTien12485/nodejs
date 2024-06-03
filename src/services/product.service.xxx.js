@@ -32,12 +32,12 @@ class ProductFactory {
         return new ProductClass(payload).createProduct()
     }
 
-    static async updateProduct(type, payload) {
+    static async updateProduct(type, productId, payload) {
         const ProductClass = ProductFactory.productRegistry[type]
 
         if (!ProductClass) throw new BadRequestError(`invalid product type ${type}`)
 
-        return new ProductClass(payload).createProduct()
+        return new ProductClass(payload).updateProduct(productId)
     }
 
     static async handleSearchProducts({ keywordSearch }) {
@@ -51,9 +51,9 @@ class ProductFactory {
 
 
     /**
-     * Unpublishes a product from a shop.
+     * unblushing a product from a shop.
      *
-     * @param {Object} params - The parameters for unpublishing the product.
+     * @param {Object} params - The parameters for unblushing the product.
      * @param {string} params.product_shop - The ID of the shop from which the product is to be unpublished.
      * @param {string} params.product_id - The ID of the product to be unpublished.
      * @return {Promise<number>} - A promise that resolves to the number of modified documents.
@@ -102,6 +102,7 @@ class ProductFactory {
      *
      * @param {Object} options - The options for finding the product.
      * @param {string} options.product_id - The ID of the product.
+     * @param {Array} options.unSelect - The fields to exclude from the product object.
      * @return {Promise<Object>} A promise that resolves to the product object.
      */
     static async findProductById({ product_id }) {
@@ -164,7 +165,7 @@ class Clothing extends Product {
       return newProduct
   }
 
-  async updateProduct(product_id) {
+  async updateProduct(productId) {
         /*
             TODO:{
                 a: undifinded,
@@ -176,10 +177,10 @@ class Clothing extends Product {
         //    2. check xem update o dau?? 
         if (objectParams.product_attributes) {
             // Update child
-            await updateProductById({ productId, bodyUpdate, model: clothing })
-        const updateProduct = await super.updateProduct(productId, objectParams)
-            return updateProduct
+            await updateProductById({ productId, objectParams, model: clothing })
         }
+        const updateProduct = await super.updateProduct(productId, objectParams)
+        return updateProduct
     }
 }
 
