@@ -12,6 +12,7 @@ const {
     findProductById,
     updateProductById
  } = require('../models/repository/product.repo')
+ const { removeUndefinedObject, updateNestedObjectParse } = require('../utils/utils')
 // define Factory class to create product
 class ProductFactory {
     /*
@@ -168,18 +169,21 @@ class Clothing extends Product {
   async updateProduct(productId) {
         /*
             TODO:{
-                a: undifinded,
+                a: undefined,
                 b: null
             } 
         */
         //    1. remove attr has null undefined
-        const objectParams = this
+        const objectParams = removeUndefinedObject(this)
         //    2. check xem update o dau?? 
         if (objectParams.product_attributes) {
             // Update child
-            await updateProductById({ productId, objectParams, model: clothing })
+            await updateProductById({ 
+                productId,
+                bodyUpdate: updateNestedObjectParse(objectParams.product_attributes), 
+                model: clothing })
         }
-        const updateProduct = await super.updateProduct(productId, objectParams)
+        const updateProduct = await super.updateProduct(productId, updateNestedObjectParse(objectParams))
         return updateProduct
     }
 }
