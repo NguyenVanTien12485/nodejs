@@ -12,7 +12,7 @@ const {
     findProductById,
     updateProductById
  } = require('../models/repository/product.repo')
- const { removeUndefinedObject, updateNestedObjectParse } = require('../utils/utils')
+ const { removeUndefinedObject, updateNestedObjectParse } = require('../utils')
 // define Factory class to create product
 class ProductFactory {
     /*
@@ -174,7 +174,9 @@ class Clothing extends Product {
             } 
         */
         //    1. remove attr has null undefined
-        const objectParams = removeUndefinedObject(this)
+        /// Update Object Nested trước khi remove undefined để tránh trường hợp bị lỗi
+        const updateNest = updateNestedObjectParser(this);
+        const objectParams = removeUndefinedObject(updateNest)
         //    2. check xem update o dau?? 
         if (objectParams.product_attributes) {
             // Update child
