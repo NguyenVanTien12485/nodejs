@@ -175,8 +175,10 @@ class Clothing extends Product {
         */
         //    1. remove attr has null undefined
         /// Update Object Nested trước khi remove undefined để tránh trường hợp bị lỗi
-        const updateNest = updateNestedObjectParser(this);
+        console.log('1::: this is', this);
+        const updateNest = updateNestedObjectParse(this);
         const objectParams = removeUndefinedObject(updateNest)
+        console.log('2::: objectParams', objectParams);
         //    2. check xem update o dau?? 
         if (objectParams.product_attributes) {
             // Update child
