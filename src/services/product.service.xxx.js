@@ -150,6 +150,8 @@ class Product {
                 stock: newProduct.product_quantity
             })
         }
+
+        return newProduct
     }
 
     // update product
