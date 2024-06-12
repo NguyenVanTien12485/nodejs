@@ -3,7 +3,7 @@ const DiscountService = require("../services/discount.service");
 const { OK, CREATED, SuccessResponse } = require("../core/success.response");
 
 class DiscountController {
-    createDiscount = async (req, res) => {
+    createDiscountCode = async (req, res, next) => {
        new SuccessResponse({
         message: 'create discount success',
         metadata: await DiscountService.createDiscountCode(
@@ -15,25 +15,35 @@ class DiscountController {
        }).send(res)
     }
 
-    getAllDiscountCodesWithProduct = async (req, res) => {
+    getAllDiscountCodesWithProduct = async (req, res, next) => {
         new SuccessResponse({
             message: 'Get all discount codes success',
             metadata: await DiscountService.getAllDiscountCodesWithProduct(
                 {
-                    ...req.body,
+                    ...req.query,
+                }
+            )
+        }).send(res)
+    }
+
+    getAllDiscountCodesByShop = async (req, res, next) => {
+        new SuccessResponse({
+            message: 'Get all discount codes success',
+            metadata: await DiscountService.getAllDiscountCodesByShop(
+                {
+                    ...req.query,
                     shopId: req.user.userId
                 }
             )
         }).send(res)
     }
 
-    getAllDiscountCodesByShop = async (req, res) => {
+    getDiscountAmount = async (req, res, next) => {
         new SuccessResponse({
-            message: 'Get all discount codes success',
-            metadata: await DiscountService.getAllDiscountCodesByShop(
+            message: 'Get discount amount success',
+            metadata: await DiscountService.getDiscountAmount(
                 {
                     ...req.body,
-                    shopId: req.user.userId
                 }
             )
         }).send(res)

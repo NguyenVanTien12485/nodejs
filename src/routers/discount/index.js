@@ -6,12 +6,15 @@ const asyncHandler = require('../../helpers/asyncHandler');
 const { authenticationV2 } = require('../../auth/authUtils');
 const router = express.Router();
 
+router.post('/amount', asyncHandler(DiscountController.getDiscountAmount))
+router.get('/list_product_codes', asyncHandler(DiscountController.getAllDiscountCodesWithProduct))
 
 // authentication
 router.use(authenticationV2)    
 
 ///
-router.post('', asyncHandler(DiscountController.createDiscount))
+router.post('', asyncHandler(DiscountController.createDiscountCode))
+router.get('', asyncHandler(DiscountController.getAllDiscountCodesByShop))
 
 
 
